@@ -1,10 +1,9 @@
-from flask import render_template #import render template function
+from flask import render_template, flash, redirect, url_for #import render template function
 from app import app	
 from app.forms import LoginForm # import LoginForm class from app.forms module
 
 @app.route('/')
 @app.route('/index')
-
 def index():
     user = {'username': 'Kaylan'}
     posts = [
@@ -25,5 +24,6 @@ def login():
     if form.validate_on_submit(): # when submit button is clicked, process form data
     	flash('Login request for user {}', remember_me={}.format( # store flash message
     		form.username.data, form.remember_me.data))
-    	return redirect(url_for('/index'))
-    return render_template('login.html', title='Sign In', form=form)
+    	return redirect(url_for('index'))
+    else:
+    	return render_template('login.html', title='Sign In', form=form)
